@@ -46,22 +46,31 @@ body {
     line-height: 1.5;
     padding: 8px 0;
   }
-  ul li:before {
+  /* ul li:before {
     content: "\25A1";
     padding: 10px 10px;
     font-size: 20px;
-  }
-  ul li:hover {
+  } */
+
+  ul li a:hover {
     text-decoration: line-through;
     cursor: pointer;
   }
-  ul li:last-child {
+  
+  .checked:hover {
+    text-decoration: none;
+  }
+
+  /* ul li:last-child {
     border-bottom: none;
-  }
-  .checked {
+  } */
+  
+  /* .checked {
     color: green;
-  }
-  .checked:before {
+    content: "\2713";
+  } */
+
+  /* .checked:before {
     content: "\2713";
     padding: 10px 10px;
     font-size: 20px;
@@ -73,67 +82,46 @@ body {
     content: " (double-click to remove)";
     color: grey;
     text-align: right;
-  }
+  } */
   
-  .removeButton {
-    position: absolute;
-    top: 50px;
-    right: 50px;
-    width: 30px;
-    height: 30px;
-    font-size: 30px;
+  .remove-button {
+    position: relative;
+    float: right;
+    top: auto;
+    right: 10px;
+    /* width: 10px;
+    height: 10px; */
+    font-size: 20px;
     cursor: pointer;
+    /* content: "\1F5D1"; */
   }
 
-  .todo-task {
-		background-color: #ccc;
-		border-radius: inherit;
-		box-shadow: 0 3px 35px rgba(0, 0, 0, 0.1);
-		margin: 0.5em 0;
-		padding: 1.25em 1em 1em 2.5em;
-		position: relative;
-		
-		@media screen and (max-width: 800px) {
-			padding-top: 1.75em;
-		}
-	}
+  .checked-button {
+    position: relative;
+    width: 20px;
+    /* height: 10px; */
+    font-size: 15px;
+    cursor: pointer;
+    /* content: "\25A1"; */
+  }
 
-	.task-title {
-		font-size: 20px;
-		display: block;
-		margin-top: 0;
-		padding-bottom: 1.5em;
-		width: 80%;
-	}
+  .checked-button .checked {
+    color: green;
+    content: "\2713";
+  }
 
-	.toggle-complete,
-	.remove {
-		font-size: 12px;
-		right: 1em;
-    	line-height: 1;
-		padding: 0.75em;
-		position: absolute;
-		width: 40px;
-		height: 40px;
-	}
-
-	.toggle-complete {		
-		background-color: #16d600;
-		border-color: darken(#16d600, 10%);
-		top: 1rem;
-		
-		/* &:hover {
-			background-color: darken(#16d600, 10%);
-		} */
-	}
-	
-	.remove {
-		background-color: #e20017;
-		border-color: darken(#E20017, 10%);
-		bottom: 1.5rem;
-		margin-bottom: 0;
-		
-		/* &:hover {
-			background-color: darken(#E20017, 10%);
-		} */
-	}
+.red {
+    background-color: lightcoral;
+}
+.yellow {
+    background-color: lightyellow;
+}
+.green {
+    background-color: lightgreen;
+}
+.blue {
+    background-color: lightskyblue;
+}
+.gray {
+    background-color: lightgray;
+}
