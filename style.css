@@ -120,6 +120,18 @@ body {
     /* content: "\1F5D1"; */
   }
 
+  .move-down-button {
+    position: relative;
+    float: right;
+    top: auto;
+    right: 10px;
+    /* width: 10px;
+    height: 10px; */
+    font-size: 20px;
+    cursor: pointer;
+    /* content: "\1F5D1"; */
+  }
+
   .checked-button {
     position: relative;
     width: 20px;
