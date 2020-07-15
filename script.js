@@ -4,14 +4,15 @@
 
     let list = document.querySelector('#todo-list'),
         form = document.querySelector('#form'),
-        item = document.querySelector('#item');
-    
-    form.addEventListener('submit', addItem, false);
+        newItem = document.querySelector('#new-item'),
+        colors = ['none', 'red', 'yellow', 'green', 'blue', 'gray'];
+
+    form.addEventListener('submit', addItemOnSubmit, false);
     list.addEventListener('click', clickHandler);
-    list.addEventListener('change', changeColor);  
+    list.addEventListener('change', changeColor);
 
     function clickHandler (e) {
-      let itemId = e.target.title;
+      let itemId = e.target.dataset.id;
       if (e.target.classList.contains('remove-button')) {
         removeItem(itemId);
       } else if (e.target.classList.contains('modify-button')) {
@@ -20,13 +21,13 @@
         moveUp(itemId);
       } else if (e.target.classList.contains('move-down-button')) {
         moveDown(itemId);
-      } else if (e.target.classList.contains('checked-button')) {
-        toggleChecked(itemId);
-      } else if (e.target.classList.contains('item-label')) {
-        toggleChecked(itemId);
-      } else if (e.target.classList.contains('todo-task')) {
+      } else if (
+        e.target.classList.contains('checked-button') || 
+        e.target.classList.contains('item-label') ||
+        e.target.classList.contains('todo-task')) {
         toggleChecked(itemId);
       }
+      store();
     }
 
     function moveUp(itemId) {
@@ -48,6 +49,7 @@
         let select = e.target;
         select.classList.remove(select.classList[1]);
         select.classList.add(select.options[select.selectedIndex].classList[0]);
+        store();
       }
     }
 
@@ -55,22 +57,25 @@
       document.getElementById(`li-${itemId}`).remove()
     }
 
-    function toggleChecked (itemId) {  
+    function toggleChecked (itemId) {
       let li = document.getElementById(`li-${itemId}`);
       let button = document.getElementById(`checkedButton-${itemId}`);
       let a = document.getElementById(`a-${itemId}`);
-      console.log(a)
 
       if (li.classList.contains('checked')) {
         li.classList.remove('checked');
         // button.classList.remove('checked');
-        button.innerHTML = '&#9633';
+        button.innerHTML = '&#11036';
+        button.title = 'Make Done'
         a.classList.remove('checked');
+        a.title = 'Make Done'
       } else {
         li.classList.add('checked');
         // button.classList.add('checked');
-        button.innerHTML = '&#10003';
+        button.innerHTML = '&#10004';
+        button.title = 'Make Undone'
         a.classList.add('checked');
+        a.title = 'Make Undone'
       }
     }
 
@@ -82,17 +87,23 @@
       }
     }
 
-    function addItem (e) {
-
+    function addItemOnSubmit(e) {
       e.preventDefault();
+      addItem (itemId = new Date().getTime(), text = newItem.value);
+      newItem.value = "";
+      store();
+    }
 
-      let itemId = new Date().getTime();
-      let colors = ['none', 'red', 'yellow', 'green', 'blue', 'gray']
-      
+    function addItem (itemId = 0, text = '', category = '', checked = false) {
+
+      if (!itemId) {
+        itemId = new Date().getTime();
+      }
+
       function createNewLi () {
         let newLi = document.createElement('li');
         newLi.classList.add('todo-task');
-        newLi.title = itemId;
+        newLi.dataset.id = itemId;
         newLi.id = `li-${itemId}`;
         newLi.draggable = true;
         return newLi
@@ -101,23 +112,29 @@
       function createNewSelect () {
         let newSelect = document.createElement('select');
         newSelect.classList.add('color-select');
-        newSelect.classList.add('none');
+        newSelect.dataset.id = itemId;
+        newSelect.title = 'Set Category';
         newSelect.id = `select-${itemId}`;
-        
+
         for (let i in colors) {
           let newOption = document.createElement('option');
           newOption.classList.add(colors[i]);
           newSelect.appendChild(newOption);
+          if (colors[i] == category) {
+            newSelect.selectedIndex = i;
+          }
         }
+        newSelect.classList.add(newSelect.options[newSelect.selectedIndex].classList[0]);
         return newSelect;
       }
 
-      function createNewButton (name, className, icon) {
+      function createNewButton (name, className, icon, hint) {
         let newButton = document.createElement('span');
         newButton.classList.add(className);
         newButton.type = 'button';
         newButton.innerHTML = icon;
-        newButton.title = itemId;
+        newButton.title = hint;
+        newButton.dataset.id = itemId;
         newButton.id = `${name}-${itemId}`;
         return newButton;
       }
@@ -125,8 +142,9 @@
       function createNewA () {
         let newA = document.createElement('a');
         newA.classList.add('item-label');
-        newA.innerText = item.value;
-        newA.title = itemId;
+        newA.innerText = text;
+        newA.title = 'Make Done';
+        newA.dataset.id = itemId;
         newA.id = `a-${itemId}`;
         return newA;
       }
@@ -134,36 +152,37 @@
       let newLi = createNewLi();
 
       newLi.appendChild(createNewSelect());
-      newLi.appendChild(createNewButton('checkedButton', 'checked-button', '&#9633'));
+      newLi.appendChild(createNewButton('checkedButton', 'checked-button', '&#11036', 'Make Done'));
       newLi.appendChild(createNewA());
-      newLi.appendChild(createNewButton('moveUpButton', 'move-up-button', '&#9650'));
-      newLi.appendChild(createNewButton('moveDownButton', 'move-down-button', '&#9660'));
-      newLi.appendChild(createNewButton('removeDownButton', 'remove-button', '&#128465'));
-      newLi.appendChild(createNewButton('modifyButton', 'modify-button', '&#9998'));
+      newLi.appendChild(createNewButton('moveUpButton', 'move-up-button', '&#9650', 'Move Up'));
+      newLi.appendChild(createNewButton('moveDownButton', 'move-down-button', '&#9660', 'Move Down'));
+      newLi.appendChild(createNewButton('removeDownButton', 'remove-button', '&#128465', 'Remove task'));
+      newLi.appendChild(createNewButton('modifyButton', 'modify-button', '&#9998', 'Modify task'));
 
       list.appendChild(newLi);
 
-      item.value = "";
-      // store();
+      if (checked) {
+        toggleChecked(itemId);
+      }
     }
 
     function store() {
-      window.localStorage.myItems = list.innerHTML;
-    }
-    
-    function getValues() {
-      var storedValues = window.localStorage.myItems;
-      if(!storedValues) {
-        list.innerHTML = '<li>Make a to do list</li>'+
-                         '<li>Check off first thing on the to do list</li>'+
-                         '<li>Realize you have already accomplished 2 things in the list</li>'+
-                         '<li>Reward yourself with a nap</li>';
+      jsonData = [];
+      for (let i = 1; i < list.childNodes.length; i++) {
+        jsonData += `^${liToJson(list.childNodes[i])}`;
       }
-      else {
-        list.innerHTML = storedValues;
-      }
+      window.localStorage.MyToDo = jsonData;
     }
 
+    function getValues() {
+      let toDoArray = window.localStorage.MyToDo.split('^');
+      if(toDoArray) {
+        for (let i=1; i < toDoArray.length; i++) {
+          item = JSON.parse(toDoArray[i]);
+          addItem (itemId = item.itemId, text = item.text , category = item.category, checked = item.checked);
+        }
+      }
+    }
 
 /// DnD ///
 
@@ -180,7 +199,6 @@ let dragIndex
           dragIndex = i;
         }
       }
-      console.log(dragIndex);
   });
 
   list.addEventListener('dragover', (event) => {
@@ -201,6 +219,19 @@ list.addEventListener('drop', ({target}) => {
       target.after( dragged );
      }
    }
+   store();
  });
 
-    // getValues();
+
+function liToJson(liObj) {
+  jsonObj = {}
+  jsonObj.itemId = liObj.dataset.id;
+  jsonObj.category = liObj.childNodes[0].classList[1];
+  jsonObj.text = liObj.childNodes[2].innerText;
+  if (liObj.classList.contains('checked')) {
+    jsonObj.checked = true;
+  } else jsonObj.checked = false;
+  return JSON.stringify(jsonObj);
+}
+
+  getValues();
