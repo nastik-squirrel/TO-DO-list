@@ -3,13 +3,19 @@
     setInterval(() => document.querySelector("h2").innerText = new Date().toLocaleString(), 1000)
 
     let list = document.querySelector('#todo-list'),
-        form = document.querySelector('#form'),
+        inputForm = document.querySelector('#input-form'),
         newItem = document.querySelector('#new-item'),
-        colors = ['none', 'red', 'yellow', 'green', 'blue', 'gray'];
-
-    form.addEventListener('submit', addItemOnSubmit, false);
+        colors = ['none', 'red', 'yellow', 'green', 'blue', 'gray'],
+        saveButton = document.querySelector('#save'),
+        uploadInput = document.querySelector('#file-upload'),
+        uploadButton = document.querySelector('#upload'),
+        reader = new FileReader();
+        
+    inputForm.addEventListener('submit', addItemOnSubmit, false);
     list.addEventListener('click', clickHandler);
     list.addEventListener('change', changeColor);
+    saveButton.addEventListener('click', saveToFile);
+    uploadButton.addEventListener('click', readFromFile);
 
     function clickHandler (e) {
       let itemId = e.target.dataset.id;
@@ -174,15 +180,46 @@
       window.localStorage.MyToDo = jsonData;
     }
 
-    function getValues() {
-      let toDoArray = window.localStorage.MyToDo.split('^');
+    function removeValues() {
+      while (list.lastElementChild) {
+        list.removeChild(list.lastElementChild);
+      }
+    }
+
+    function getValues(data) {
+      let toDoArray = data.split('^');
       if(toDoArray) {
         for (let i=1; i < toDoArray.length; i++) {
           item = JSON.parse(toDoArray[i]);
           addItem (itemId = item.itemId, text = item.text , category = item.category, checked = item.checked);
         }
       }
+      store();
     }
+
+    function saveToFile() {
+      const a = document.createElement('a');
+      const file = new Blob([window.localStorage.MyToDo], {type: 'text/plain'});
+      a.href= URL.createObjectURL(file);
+      a.download = 'my-to-do.txt';
+      a.click();
+    
+      URL.revokeObjectURL(a.href);
+    }
+
+    function readFromFile() {
+      if (uploadInput.files[0]) {
+        reader.readAsText(uploadInput.files[0]);
+        reader.onload = function(e) {
+          removeValues();
+          getValues(e.target.result) };
+          store();
+      } else {
+        alert('No file chosen!');
+      }
+
+    }
+
 
 /// DnD ///
 
@@ -234,4 +271,4 @@ function liToJson(liObj) {
   return JSON.stringify(jsonObj);
 }
 
-  getValues();
+  getValues(window.localStorage.MyToDo);
