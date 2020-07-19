@@ -15,17 +15,15 @@
 <h2>Date and time</h2>
 
 <div class="container">
+  <div class="input-container">
+    <button type="button" id="add-item" title="Add task"> Add </button>
+    <input type="text" name="new-item" id="new-item" placeholder="New task" />
+  </div>
   
-<form id="input-form" action="#">
-  <label class="new-item">
-    <input type="text" name="new-item" id="new-item" placeholder="Add new task" />
-  </label>
-</form>  
-
 <ul id="todo-list" class="todo-list">
 </ul>
 
-<div class="container">
+<div class="input-container">
   <button type="button" id="save" title="Save to file"> Save </button>
   <button type="button" id="upload" title="Upload from file"> Upload </button>
   <input type="file" id="file-upload" placeholder="File to upload"/>

@@ -3,15 +3,16 @@
     setInterval(() => document.querySelector("h2").innerText = new Date().toLocaleString(), 1000)
 
     let list = document.querySelector('#todo-list'),
-        inputForm = document.querySelector('#input-form'),
         newItem = document.querySelector('#new-item'),
+        addItemButton = document.querySelector('#add-item'),
         colors = ['none', 'red', 'yellow', 'green', 'blue', 'gray'],
         saveButton = document.querySelector('#save'),
         uploadInput = document.querySelector('#file-upload'),
         uploadButton = document.querySelector('#upload'),
         reader = new FileReader();
-        
-    inputForm.addEventListener('submit', addItemOnSubmit, false);
+
+    newItem.addEventListener('keypress', addSingleItem);
+    addItemButton.addEventListener('click', addSingleItem);
     list.addEventListener('click', clickHandler);
     list.addEventListener('change', changeColor);
     saveButton.addEventListener('click', saveToFile);
@@ -27,6 +28,8 @@
         moveUp(itemId);
       } else if (e.target.classList.contains('move-down-button')) {
         moveDown(itemId);
+      } else if (e.target.classList.contains('dummy-select')) {
+        
       } else if (
         e.target.classList.contains('checked-button') || 
         e.target.classList.contains('item-label') ||
@@ -53,8 +56,10 @@
     function changeColor(e) {
       if (e.target.type = 'select') {
         let select = e.target;
+        select.parentNode.classList.remove(select.classList[1])
         select.classList.remove(select.classList[1]);
         select.classList.add(select.options[select.selectedIndex].classList[0]);
+        select.parentNode.classList.add(select.classList[1])
         store();
       }
     }
@@ -70,14 +75,14 @@
 
       if (li.classList.contains('checked')) {
         li.classList.remove('checked');
-        // button.classList.remove('checked');
+        button.classList.remove('checked');
         button.innerHTML = '&#11036';
         button.title = 'Make Done'
         a.classList.remove('checked');
         a.title = 'Make Done'
       } else {
         li.classList.add('checked');
-        // button.classList.add('checked');
+        button.classList.add('checked');
         button.innerHTML = '&#10004';
         button.title = 'Make Undone'
         a.classList.add('checked');
@@ -93,11 +98,13 @@
       }
     }
 
-    function addItemOnSubmit(e) {
-      e.preventDefault();
-      addItem (itemId = new Date().getTime(), text = newItem.value);
-      newItem.value = "";
-      store();
+    function addSingleItem(e) {
+      if (e.key === 'Enter' || e.type == 'click') {
+        addItem (itemId = new Date().getTime(), text = newItem.value);
+        newItem.value = "";
+        store();
+        console.log(list.lastElementChild);
+      }
     }
 
     function addItem (itemId = 0, text = '', category = '', checked = false) {
@@ -155,15 +162,24 @@
         return newA;
       }
 
+      function createDummySelect () {
+        let newDummySelect = document.createElement('span');
+        newDummySelect.classList.add('dummy-select');
+        return newDummySelect;
+      }
+
       let newLi = createNewLi();
 
+      newLi.appendChild(createDummySelect());
       newLi.appendChild(createNewSelect());
       newLi.appendChild(createNewButton('checkedButton', 'checked-button', '&#11036', 'Make Done'));
       newLi.appendChild(createNewA());
-      newLi.appendChild(createNewButton('moveUpButton', 'move-up-button', '&#9650', 'Move Up'));
+      newLi.appendChild(createNewButton('removeButton', 'remove-button', '&#128465', 'Remove task'));
       newLi.appendChild(createNewButton('moveDownButton', 'move-down-button', '&#9660', 'Move Down'));
-      newLi.appendChild(createNewButton('removeDownButton', 'remove-button', '&#128465', 'Remove task'));
+      newLi.appendChild(createNewButton('moveUpButton', 'move-up-button', '&#9650', 'Move Up'));
       newLi.appendChild(createNewButton('modifyButton', 'modify-button', '&#9998', 'Modify task'));
+      
+      newLi.classList.add(newLi.childNodes[1].classList[1])
 
       list.appendChild(newLi);
 
@@ -263,8 +279,8 @@ list.addEventListener('drop', ({target}) => {
 function liToJson(liObj) {
   jsonObj = {}
   jsonObj.itemId = liObj.dataset.id;
-  jsonObj.category = liObj.childNodes[0].classList[1];
-  jsonObj.text = liObj.childNodes[2].innerText;
+  jsonObj.category = liObj.childNodes[1].classList[1];
+  jsonObj.text = liObj.childNodes[3].innerText;
   if (liObj.classList.contains('checked')) {
     jsonObj.checked = true;
   } else jsonObj.checked = false;

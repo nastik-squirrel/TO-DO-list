@@ -2,49 +2,6 @@ body {
   background: #eee;
   color: #444;
   font-family: cursive, sans-serif;
-  /* font-style: italic; */
-}
-
-.container {
-  background: #fff;
-  max-width: 600px;
-  width: 100%;
-  display: table;
-  margin: 0 auto;
-  margin-top: 40px;
-  border: 1px solid #cfcbcc;
-}
-
-
-#save {
-  float: left;
-  position: relative;
-}
-
-#file-upload {
-  width: 220px;
-  float: right;
-  position: relative;
-}
-
-#upload {
-  float: right;
-  position: relative;
-}
-
-.container input{
-  float: left;
-  position: relative;
-}
-
-input {
-  border: none;
-  display: block;
-  width: 98.4%;
-  line-height: 1.5;
-  padding: 8px 0 8px 10px;
-  border-bottom: 1px solid #cfcbcc;
-  outline: 0;
 }
 
 h1, h2 {
@@ -57,54 +14,99 @@ h2 {
   color: gray;
 }
 
+.container {
+  background: #fff;
+  max-width: 600px;
+  /* width: 100%; */
+  display: table;
+  margin: auto;
+  margin-top: 40px;
+  border: 1px solid #cfcbcc;
+}
+
+.input-container {
+  border: none;
+  position: relative;
+  width: 600px;
+  display: inline-block;
+  padding: 10px;
+  border-bottom: 1px solid #cfcbcc;
+  outline: 0;
+}
+
+input:focus {
+  background-color: transparent;
+  background: transparent;
+  outline: none;
+}
+
+#new-item {
+  border: none;
+  display:inline-block;
+}
+
+#save {
+  float: left;
+  top: auto;
+  position: relative;
+}
+
+#file-upload {
+  width: 220px;
+  float: right;
+  position: relative;
+}
+
+#upload {
+  float: right;
+  top: auto;
+  position: relative;
+}
+
 ul {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 10px;
 }
-ul li {
+
+li {
   color: #899098;
   font-weight: 400;
   border-bottom: 1px solid #cfcbcc;
   line-height: 1.5;
   padding: 8px 0;
+  position: relative;
 }
 
-ul li a:hover {
+span {
+  position: relative;
+  top: auto;
+  padding: 1px;
+  font-size: 18px;
+}
+
+a:hover {
   text-decoration: line-through;
-  cursor: pointer;
 }
 
-.checked:hover {
+a.checked:hover {
   text-decoration: none;
 }
 
-/* ul li:last-child {
-  border-bottom: none;
-} */
-
-/* .checked {
-  color: green;
-  content: "\2713";
-} */
-
-/* .checked:before {
-  content: "\2713";
-  padding: 10px 10px;
-  font-size: 20px;
+a.checked {
+  text-decoration: line-through;
 }
-.checked:hover {
-  text-decoration: none;
+
+.checked-button {
+  padding: 0 3px;
 }
-.checked:hover:after {
-  content: " (double-click to remove)";
-  color: grey;
-  text-align: right;
-} */
+
+.checked-button.checked {
+  padding: 0 7px;
+}
 
 button {
   font-family: cursive, sans-serif;
-  top: 9px;
 }
 
 input {
@@ -117,65 +119,47 @@ input {
 }
 
 .remove-button {
-  position: relative;
   float: right;
-  top: auto;
-  right: 10px;
-  /* width: 10px;
-  height: 10px; */
-  font-size: 20px;
-  cursor: pointer;
-  /* content: "\1F5D1"; */
+  font-size: 18px;
+  padding: 0 2px 0 10px;
 }
 
 .modify-button {
-  position: relative;
   float: right;
-  top: auto;
-  right: 10px;
-  /* width: 10px;
-  height: 10px; */
-  font-size: 20px;
-  cursor: pointer;
-  /* content: "\1F5D1"; */
+  font-size: 24px;
 }
 
 .move-up-button {
-  position: relative;
   float: right;
-  top: auto;
-  right: 10px;
-  /* width: 10px;
-  height: 10px; */
+  padding: 0 2px;
   font-size: 20px;
-  cursor: pointer;
-  /* content: "\1F5D1"; */
 }
 
 .move-down-button {
-  position: relative;
   float: right;
-  top: auto;
-  right: 10px;
-  /* width: 10px;
-  height: 10px; */
+  padding: 0 2px;
   font-size: 20px;
-  cursor: pointer;
-  /* content: "\1F5D1"; */
 }
 
-.checked-button {
+.color-select {
+  /* -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: ''; */
+  border: transparent;
+  position: absolute;
+  top: 0%;
+  bottom: 0%;
+  left: 0%;
+  width: 15px;
+}
+
+.dummy-select {
+  border: transparent;
+  background: transparent;
   position: relative;
-  width: 20px;
-  /* height: 10px; */
-  font-size: 15px;
-  cursor: pointer;
-  /* content: "\25A1"; */
-}
-
-.checked-button .checked {
-  color: green;
-  content: "\2713";
+  padding: 0 10px;
+  z-index: -1;
 }
 
 .red {
@@ -192,4 +176,38 @@ input {
 }
 .gray {
   background-color: lightgray;
+}
+.none {
+  background-color: transparent;
+}
+
+li.red {
+  background-color: transparent;
+  border: 2px solid lightcoral;
+}
+
+li.yellow {
+  background-color: transparent;
+  border: 2px solid lightyellow;
+}
+
+li.green {
+  background-color: transparent;
+  border:2px solid lightgreen;
+}
+
+li.blue {
+  background-color: transparent;
+  border: 2px solid lightskyblue;
+}
+
+li.gray {
+  background-color: transparent;
+  border: 2px solid lightgray;
+}
+
+li.none {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #cfcbcc;
 }
