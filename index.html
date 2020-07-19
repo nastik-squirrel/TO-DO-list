@@ -16,13 +16,24 @@
 
 <div class="container">
   
-  <form id="form" action="#">
+<form id="input-form" action="#">
+  <label class="new-item">
     <input type="text" name="new-item" id="new-item" placeholder="Add new task" />
+  </label>
 </form>  
+
 <ul id="todo-list" class="todo-list">
 </ul>
 
+<div class="container">
+  <button type="button" id="save" title="Save to file"> Save </button>
+  <button type="button" id="upload" title="Upload from file"> Upload </button>
+  <input type="file" id="file-upload" placeholder="File to upload"/>
+  <!-- <button type="button" id="upload" title="Upload from file"> Upload </button> -->
+</div> 
+
 </div>
+
 <script src="script.js"></script>
 
 </body>
