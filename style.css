@@ -66,16 +66,17 @@ input:focus {
 ul {
   list-style: none;
   margin: 0;
-  padding: 0 10px;
+  padding: 0;
+  border-bottom: 1px solid #cfcbcc;
 }
 
 li {
   color: #899098;
   font-weight: 400;
-  border-bottom: 1px solid #cfcbcc;
   line-height: 1.5;
-  padding: 8px 0;
+  padding: 8px 4px;
   position: relative;
+  margin: 4px;
 }
 
 span {
@@ -120,38 +121,42 @@ input {
 
 .remove-button {
   float: right;
-  font-size: 18px;
   padding: 0 2px 0 10px;
 }
 
 .modify-button {
   float: right;
-  font-size: 24px;
 }
 
 .move-up-button {
   float: right;
   padding: 0 2px;
-  font-size: 20px;
 }
 
 .move-down-button {
   float: right;
   padding: 0 2px;
-  font-size: 20px;
 }
 
 .color-select {
-  /* -webkit-appearance: none;
+  -webkit-appearance: none;
   -moz-appearance: none;
   text-indent: 1px;
-  text-overflow: ''; */
+  text-overflow: '';
   border: transparent;
   position: absolute;
   top: 0%;
   bottom: 0%;
   left: 0%;
   width: 15px;
+}
+
+select:focus {
+  outline: none !important;
+}
+
+.color-select.none{
+  border: 1px solid lightgrey;
 }
 
 .dummy-select {
@@ -178,36 +183,35 @@ input {
   background-color: lightgray;
 }
 .none {
-  background-color: transparent;
+  background-color: white;
 }
 
 li.red {
   background-color: transparent;
-  border: 2px solid lightcoral;
+  border: 1px solid lightcoral;
 }
 
 li.yellow {
   background-color: transparent;
-  border: 2px solid lightyellow;
+  border: 1px solid lightyellow;
 }
 
 li.green {
   background-color: transparent;
-  border:2px solid lightgreen;
+  border:1px solid lightgreen;
 }
 
 li.blue {
   background-color: transparent;
-  border: 2px solid lightskyblue;
+  border: 1px solid lightskyblue;
 }
 
 li.gray {
   background-color: transparent;
-  border: 2px solid lightgray;
+  border: 1px solid lightgray;
 }
 
 li.none {
   background-color: transparent;
-  border: none;
-  border-bottom: 1px solid #cfcbcc;
+  border: 1px solid white;
 }
