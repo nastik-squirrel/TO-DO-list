@@ -103,7 +103,6 @@
         addItem (itemId = new Date().getTime(), text = newItem.value);
         newItem.value = "";
         store();
-        console.log(list.lastElementChild);
       }
     }
 
