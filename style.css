@@ -43,6 +43,7 @@ input:focus {
 #new-item {
   border: none;
   display:inline-block;
+  width: 450px;
 }
 
 #save {
